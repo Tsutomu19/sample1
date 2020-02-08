@@ -1,24 +1,22 @@
 class TodolistsController < ApplicationController
 
   	def new
-
-  		@list = List.new
+       @list = List.new
   	end
+    
+    def create
+      list = List.new(list_params)#ストロングパラメーターを利用
+      list.save #DBへ保存
+      redirect_to todolist_path(list.id)
+    end
 
-	def index
-		@lists = List.all
-	end
+	 def index
+	 	@lists = List.all
+	 end
 
-	def show
+	 def show
 		@list = List.find(params[:id])
-	end
-
-	def create
-  		list = List.new(list_params)#ストロングパラメーターを利用
-  		list.save #DBへ保存
-
-  		redirect_to todolist_path(list.id)
-  	end
+	 end
   	def edit
   		@list = List.find(params[:id])
   	end
@@ -29,9 +27,8 @@ class TodolistsController < ApplicationController
   		redirect_to todolist_path(list.id)
   	end
 
-private
-
-  	def list_params
-  		params.require(:list).permit(:title, :body)
-  	end
+  private
+  def list_params
+    params.require(:list).permit(:title, :body, :image)
+  end
 end

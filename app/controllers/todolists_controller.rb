@@ -3,7 +3,6 @@ class TodolistsController < ApplicationController
   	def new
        @list = List.new
   	end
-    
     def create
       list = List.new(list_params)#ストロングパラメーターを利用
       list.save #DBへ保存
@@ -26,6 +25,11 @@ class TodolistsController < ApplicationController
   		list.update(list_params)
   		redirect_to todolist_path(list.id)
   	end
+    def destroy
+      list = List.find(params[:id])#データ（レコード）を一件取得
+      list.destroy#データ（レコード）を削除
+      redirect_to todolists_path#List一覧画面へリダイレクト
+    end
 
   private
   def list_params
